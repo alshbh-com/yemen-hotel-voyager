@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { Menu, X, Globe, User, LogOut } from 'lucide-react';
+import { Menu, X, Globe, User, LogOut, Settings } from 'lucide-react';
 
 const Navbar = () => {
   const { language, toggleLanguage, t } = useLanguage();
@@ -29,14 +29,18 @@ const Navbar = () => {
           {isAuthenticated && (
             <Link to="/bookings" className="px-3 py-2 text-sm font-medium hover:text-yemen-DEFAULT">{t('bookings')}</Link>
           )}
-          
-          {isAdmin && (
-            <Link to="/admin" className="px-3 py-2 text-sm font-medium hover:text-yemen-DEFAULT">{t('admin')}</Link>
-          )}
         </nav>
 
         {/* Right Side Actions */}
         <div className="flex items-center space-x-4 space-x-reverse:rtl">
+          {/* Admin Panel Button */}
+          <Link to="/admin-login">
+            <Button variant="outline" size="sm" className="flex items-center gap-1">
+              <Settings className="h-4 w-4" />
+              <span>{language === 'ar' ? 'لوحة التحكم' : 'Admin Panel'}</span>
+            </Button>
+          </Link>
+
           {/* Language Toggle */}
           <Button 
             variant="ghost" 
@@ -126,15 +130,14 @@ const Navbar = () => {
               </Link>
             )}
             
-            {isAdmin && (
-              <Link 
-                to="/admin" 
-                className="block px-3 py-2 text-base font-medium hover:bg-yemen-muted rounded-md"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('admin')}
-              </Link>
-            )}
+            {/* Admin Panel Link for Mobile */}
+            <Link 
+              to="/admin-login" 
+              className="block px-3 py-2 text-base font-medium hover:bg-yemen-muted rounded-md"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {language === 'ar' ? 'لوحة التحكم' : 'Admin Panel'}
+            </Link>
             
             {!isAuthenticated && (
               <>

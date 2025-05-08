@@ -80,7 +80,7 @@ const Index = () => {
             {t('view_all')}
           </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-6">
           {cities.map((city, index) => (
             <Link key={index} to={`/hotels?city=${city.name}`}>
               <div className="group relative rounded-lg overflow-hidden shadow-md h-60">
@@ -110,7 +110,7 @@ const Index = () => {
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredHotels.map((hotel) => (
+          {featuredHotels.slice(0, 6).map((hotel) => (
             <Link key={hotel.id} to={`/hotels/${hotel.id}`}>
               <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
                 <div className="relative h-48">
