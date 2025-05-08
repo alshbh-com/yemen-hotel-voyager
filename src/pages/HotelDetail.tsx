@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -15,7 +14,7 @@ import {
   ChevronLeft, 
   ChevronRight,
   Wifi,
-  Pool,
+  Waves,
   Utensils,
   Car,
   Bath,
@@ -38,7 +37,7 @@ const HotelDetail = () => {
   // Get amenity icon based on amenity name
   const getAmenityIcon = (amenity: string) => {
     if (amenity.includes('واي فاي') || amenity.includes('Wi-Fi')) return <Wifi className="w-5 h-5" />;
-    if (amenity.includes('مسبح') || amenity.includes('pool')) return <Pool className="w-5 h-5" />;
+    if (amenity.includes('مسبح') || amenity.includes('pool')) return <Waves className="w-5 h-5" />;
     if (amenity.includes('مطعم') || amenity.includes('restaurant')) return <Utensils className="w-5 h-5" />;
     if (amenity.includes('موقف') || amenity.includes('parking')) return <Car className="w-5 h-5" />;
     if (amenity.includes('خدمة الغرف') || amenity.includes('room service')) return <Bath className="w-5 h-5" />;
