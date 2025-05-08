@@ -37,8 +37,9 @@ import {
   MapPin,
   Star
 } from 'lucide-react';
-import { hotels } from '@/data/hotels';
+import { Hotel, hotels } from '@/data/hotels';
 import { useToast } from '@/hooks/use-toast';
+import { v4 as uuidv4 } from 'uuid';
 
 interface HotelFormData {
   name: string;
@@ -55,6 +56,7 @@ const AdminDashboard = () => {
   const { isAdmin } = useAuth();
   const { toast } = useToast();
   
+  const [hotelsList, setHotelsList] = useState<Hotel[]>(hotels);
   const [formData, setFormData] = useState<HotelFormData>({
     name: '',
     description: '',
@@ -81,10 +83,53 @@ const AdminDashboard = () => {
   
   const handleAddHotel = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Create a new hotel object
+    const newHotel: Hotel = {
+      id: uuidv4(),
+      name: formData.name,
+      description: formData.description,
+      address: formData.address,
+      city: formData.city,
+      country: formData.country,
+      images: [
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=2089&auto=format&fit=crop"
+      ],
+      rating: 0,
+      reviewCount: 0,
+      stars: formData.stars,
+      pricePerNight: formData.pricePerNight,
+      coordinates: {
+        lat: 12.7854, // Default coordinates
+        lng: 45.0324
+      },
+      amenities: ["واي فاي مجاني", "مسبح خارجي", "مطعم", "خدمة الغرف"],
+      rooms: [
+        {
+          id: uuidv4(),
+          name: "غرفة عادية",
+          description: "غرفة مريحة ومجهزة بالكامل",
+          pricePerNight: formData.pricePerNight,
+          capacity: 2,
+          images: [
+            "https://images.unsplash.com/photo-1560448075-bb485b067938?q=80&w=2070&auto=format&fit=crop"
+          ],
+          amenities: ["تكييف", "تلفزيون", "ميني بار"]
+        }
+      ],
+      featured: false
+    };
+    
+    // Add the new hotel to the list
+    setHotelsList(prevHotels => [...prevHotels, newHotel]);
+    
     toast({
       title: language === 'ar' ? 'تمت الإضافة بنجاح' : 'Hotel added successfully',
       description: language === 'ar' ? 'تمت إضافة الفندق الجديد' : 'The new hotel has been added',
     });
+    
+    // Reset form
     setFormData({
       name: '',
       description: '',
@@ -97,7 +142,7 @@ const AdminDashboard = () => {
   };
   
   const handleEditHotel = (hotelId: string) => {
-    const hotel = hotels.find(h => h.id === hotelId);
+    const hotel = hotelsList.find(h => h.id === hotelId);
     if (hotel) {
       setEditingHotelId(hotelId);
       setFormData({
@@ -114,10 +159,32 @@ const AdminDashboard = () => {
   
   const handleUpdateHotel = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!editingHotelId) return;
+    
+    // Update the hotel in the list
+    setHotelsList(prevHotels => 
+      prevHotels.map(hotel => 
+        hotel.id === editingHotelId 
+          ? {
+              ...hotel,
+              name: formData.name,
+              description: formData.description,
+              address: formData.address,
+              city: formData.city,
+              country: formData.country,
+              pricePerNight: formData.pricePerNight,
+              stars: formData.stars
+            }
+          : hotel
+      )
+    );
+    
     toast({
       title: language === 'ar' ? 'تم التحديث بنجاح' : 'Hotel updated successfully',
       description: language === 'ar' ? 'تم تحديث بيانات الفندق' : 'The hotel information has been updated',
     });
+    
+    // Reset state
     setEditingHotelId(null);
     setFormData({
       name: '',
@@ -132,6 +199,9 @@ const AdminDashboard = () => {
   
   const handleDeleteHotel = (hotelId: string) => {
     if (window.confirm(language === 'ar' ? 'هل أنت متأكد من رغبتك في حذف هذا الفندق؟' : 'Are you sure you want to delete this hotel?')) {
+      // Remove the hotel from the list
+      setHotelsList(prevHotels => prevHotels.filter(hotel => hotel.id !== hotelId));
+      
       toast({
         title: language === 'ar' ? 'تم الحذف بنجاح' : 'Hotel deleted successfully',
         description: language === 'ar' ? 'تم حذف الفندق' : 'The hotel has been deleted',
@@ -311,7 +381,7 @@ const AdminDashboard = () => {
                           {t('cancel')}
                         </Button>
                       )}
-                      <Button type="submit" className="bg-yemen-DEFAULT hover:bg-yemen-dark">
+                      <Button type="submit" className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700">
                         {editingHotelId ? t('submit') : language === 'ar' ? 'إضافة فندق' : 'Add Hotel'}
                       </Button>
                     </div>
@@ -326,8 +396,8 @@ const AdminDashboard = () => {
                     <CardTitle>{language === 'ar' ? 'قائمة الفنادق' : 'Hotels List'}</CardTitle>
                     <CardDescription>
                       {language === 'ar'
-                        ? `${hotels.length} فنادق`
-                        : `${hotels.length} hotels`
+                        ? `${hotelsList.length} فنادق`
+                        : `${hotelsList.length} hotels`
                       }
                     </CardDescription>
                   </CardHeader>
@@ -344,7 +414,7 @@ const AdminDashboard = () => {
                           </TableRow>
                         </TableHeader>
                         <TableBody>
-                          {hotels.map(hotel => (
+                          {hotelsList.map(hotel => (
                             <TableRow key={hotel.id}>
                               <TableCell className="font-medium">
                                 <div className="flex items-center">

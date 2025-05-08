@@ -13,6 +13,10 @@ import HotelDetail from "./pages/HotelDetail";
 import Login from "./pages/Login";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import WhyUs from "./pages/WhyUs";
+import Reviews from "./pages/Reviews";
+import Contact from "./pages/Contact";
+import AiAssistant from "./pages/AiAssistant";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +35,10 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/admin-login" element={<AdminLogin />} />
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/why-us" element={<WhyUs />} />
+              <Route path="/reviews" element={<Reviews />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/ai-assistant" element={<AiAssistant />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

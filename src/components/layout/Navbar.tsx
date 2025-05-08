@@ -12,41 +12,54 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white shadow-sm border-b sticky top-0 z-40">
+    <header className="bg-gradient-to-r from-indigo-900 to-purple-800 shadow-lg sticky top-0 z-40">
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <span className="text-yemen-DEFAULT font-bold text-2xl">
-            {language === 'ar' ? 'فندقي' : 'Fandiqi'}
+          <span className="text-white font-bold text-2xl">
+            {language === 'ar' ? 'محجوز' : 'Mahjooz'}
           </span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-4 space-x-reverse:rtl">
-          <Link to="/" className="px-3 py-2 text-sm font-medium hover:text-yemen-DEFAULT">{t('home')}</Link>
-          <Link to="/hotels" className="px-3 py-2 text-sm font-medium hover:text-yemen-DEFAULT">{t('hotels')}</Link>
+          <Link to="/" className="px-3 py-2 text-sm font-medium text-white hover:text-yellow-300 transition-colors">{t('home')}</Link>
+          <Link to="/hotels" className="px-3 py-2 text-sm font-medium text-white hover:text-yellow-300 transition-colors">{t('hotels')}</Link>
+          <Link to="/why-us" className="px-3 py-2 text-sm font-medium text-white hover:text-yellow-300 transition-colors">{language === 'ar' ? 'لماذا محجوز' : 'Why Mahjooz'}</Link>
+          <Link to="/reviews" className="px-3 py-2 text-sm font-medium text-white hover:text-yellow-300 transition-colors">{language === 'ar' ? 'التقييمات' : 'Reviews'}</Link>
+          <Link to="/contact" className="px-3 py-2 text-sm font-medium text-white hover:text-yellow-300 transition-colors">{language === 'ar' ? 'تواصل معنا' : 'Contact Us'}</Link>
+          <Link to="/ai-assistant" className="px-3 py-2 text-sm font-medium text-white hover:text-yellow-300 transition-colors">{language === 'ar' ? 'المساعد الذكي' : 'AI Assistant'}</Link>
           
           {isAuthenticated && (
-            <Link to="/bookings" className="px-3 py-2 text-sm font-medium hover:text-yemen-DEFAULT">{t('bookings')}</Link>
+            <Link to="/bookings" className="px-3 py-2 text-sm font-medium text-white hover:text-yellow-300 transition-colors">{t('bookings')}</Link>
           )}
         </nav>
 
         {/* Right Side Actions */}
         <div className="flex items-center space-x-4 space-x-reverse:rtl">
           {/* Admin Panel Button */}
-          <Link to="/admin-login">
-            <Button variant="outline" size="sm" className="flex items-center gap-1">
-              <Settings className="h-4 w-4" />
-              <span>{language === 'ar' ? 'لوحة التحكم' : 'Admin Panel'}</span>
-            </Button>
-          </Link>
+          {isAdmin ? (
+            <Link to="/admin">
+              <Button variant="outline" size="sm" className="flex items-center gap-1 bg-amber-600 text-white border-amber-500 hover:bg-amber-700">
+                <Settings className="h-4 w-4" />
+                <span>{language === 'ar' ? 'لوحة التحكم' : 'Admin Panel'}</span>
+              </Button>
+            </Link>
+          ) : (
+            <Link to="/admin-login">
+              <Button variant="outline" size="sm" className="flex items-center gap-1 bg-amber-600 text-white border-amber-500 hover:bg-amber-700">
+                <Settings className="h-4 w-4" />
+                <span>{language === 'ar' ? 'لوحة التحكم' : 'Admin Panel'}</span>
+              </Button>
+            </Link>
+          )}
 
           {/* Language Toggle */}
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={toggleLanguage} 
-            className="rounded-full"
+            className="rounded-full text-white hover:bg-purple-700"
           >
             <Globe className="h-5 w-5" />
             <span className="sr-only">{t('language')}</span>
@@ -56,7 +69,7 @@ const Navbar = () => {
           {isAuthenticated ? (
             <div className="flex items-center space-x-2 space-x-reverse:rtl">
               <Link to="/profile">
-                <Button variant="ghost" size="icon" className="rounded-full">
+                <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-purple-700">
                   <User className="h-5 w-5" />
                   <span className="sr-only">{t('profile')}</span>
                 </Button>
@@ -65,7 +78,7 @@ const Navbar = () => {
                 variant="ghost" 
                 size="icon" 
                 onClick={logout} 
-                className="rounded-full"
+                className="rounded-full text-white hover:bg-purple-700"
               >
                 <LogOut className="h-5 w-5" />
                 <span className="sr-only">{t('logout')}</span>
@@ -74,10 +87,10 @@ const Navbar = () => {
           ) : (
             <div className="flex space-x-2 space-x-reverse:rtl">
               <Link to="/login">
-                <Button variant="ghost" size="sm">{t('login')}</Button>
+                <Button variant="ghost" size="sm" className="text-white hover:bg-purple-700">{t('login')}</Button>
               </Link>
               <Link to="/signup">
-                <Button variant="default" size="sm" className="bg-yemen-DEFAULT hover:bg-yemen-dark">
+                <Button variant="default" size="sm" className="bg-amber-500 hover:bg-amber-600 text-white">
                   {t('signup')}
                 </Button>
               </Link>
@@ -89,7 +102,7 @@ const Navbar = () => {
             variant="ghost" 
             size="icon" 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-            className="md:hidden rounded-full"
+            className="md:hidden rounded-full text-white hover:bg-purple-700"
           >
             {mobileMenuOpen ? (
               <X className="h-6 w-6" />
@@ -103,27 +116,55 @@ const Navbar = () => {
 
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t">
+        <div className="md:hidden bg-indigo-900 border-t border-indigo-800">
           <div className="container mx-auto px-4 py-3 space-y-1">
             <Link 
               to="/" 
-              className="block px-3 py-2 text-base font-medium hover:bg-yemen-muted rounded-md"
+              className="block px-3 py-2 text-base font-medium text-white hover:bg-indigo-800 rounded-md"
               onClick={() => setMobileMenuOpen(false)}
             >
               {t('home')}
             </Link>
             <Link 
               to="/hotels" 
-              className="block px-3 py-2 text-base font-medium hover:bg-yemen-muted rounded-md"
+              className="block px-3 py-2 text-base font-medium text-white hover:bg-indigo-800 rounded-md"
               onClick={() => setMobileMenuOpen(false)}
             >
               {t('hotels')}
+            </Link>
+            <Link 
+              to="/why-us" 
+              className="block px-3 py-2 text-base font-medium text-white hover:bg-indigo-800 rounded-md"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {language === 'ar' ? 'لماذا محجوز' : 'Why Mahjooz'}
+            </Link>
+            <Link 
+              to="/reviews" 
+              className="block px-3 py-2 text-base font-medium text-white hover:bg-indigo-800 rounded-md"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {language === 'ar' ? 'التقييمات' : 'Reviews'}
+            </Link>
+            <Link 
+              to="/contact" 
+              className="block px-3 py-2 text-base font-medium text-white hover:bg-indigo-800 rounded-md"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {language === 'ar' ? 'تواصل معنا' : 'Contact Us'}
+            </Link>
+            <Link 
+              to="/ai-assistant" 
+              className="block px-3 py-2 text-base font-medium text-white hover:bg-indigo-800 rounded-md"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {language === 'ar' ? 'المساعد الذكي' : 'AI Assistant'}
             </Link>
             
             {isAuthenticated && (
               <Link 
                 to="/bookings" 
-                className="block px-3 py-2 text-base font-medium hover:bg-yemen-muted rounded-md"
+                className="block px-3 py-2 text-base font-medium text-white hover:bg-indigo-800 rounded-md"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t('bookings')}
@@ -132,8 +173,8 @@ const Navbar = () => {
             
             {/* Admin Panel Link for Mobile */}
             <Link 
-              to="/admin-login" 
-              className="block px-3 py-2 text-base font-medium hover:bg-yemen-muted rounded-md"
+              to={isAdmin ? "/admin" : "/admin-login"} 
+              className="block px-3 py-2 text-base font-medium text-white hover:bg-indigo-800 rounded-md"
               onClick={() => setMobileMenuOpen(false)}
             >
               {language === 'ar' ? 'لوحة التحكم' : 'Admin Panel'}
@@ -143,14 +184,14 @@ const Navbar = () => {
               <>
                 <Link 
                   to="/login" 
-                  className="block px-3 py-2 text-base font-medium hover:bg-yemen-muted rounded-md"
+                  className="block px-3 py-2 text-base font-medium text-white hover:bg-indigo-800 rounded-md"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {t('login')}
                 </Link>
                 <Link 
                   to="/signup" 
-                  className="block px-3 py-2 text-base font-medium hover:bg-yemen-muted rounded-md"
+                  className="block px-3 py-2 text-base font-medium text-white hover:bg-indigo-800 rounded-md"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {t('signup')}
