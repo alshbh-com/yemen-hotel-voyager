@@ -18,6 +18,7 @@ import Reviews from "./pages/Reviews";
 import Contact from "./pages/Contact";
 import AiAssistant from "./pages/AiAssistant";
 
+// Create a new QueryClient instance
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -25,9 +26,9 @@ const App = () => (
     <LanguageProvider>
       <AuthProvider>
         <TooltipProvider>
-          <Toaster />
-          <Sonner />
           <BrowserRouter>
+            <Toaster />
+            <Sonner />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/hotels" element={<HotelList />} />

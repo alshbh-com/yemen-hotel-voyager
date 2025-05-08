@@ -15,7 +15,7 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="col-span-1">
             <Link to="/" className="text-2xl font-bold text-white">
-              {language === 'ar' ? 'فندقي' : 'Fandiqi'}
+              {language === 'ar' ? 'محجوز' : 'Mahjooz'}
             </Link>
             <p className="mt-2 text-sm text-white/80">
               {language === 'ar' 
@@ -70,24 +70,19 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/hotels?city=صنعاء" className="text-white/80 hover:text-white transition-colors">
+                <a href="/hotels?city=صنعاء" className="text-white/80 hover:text-white transition-colors">
                   {language === 'ar' ? 'صنعاء' : 'Sana\'a'}
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/hotels?city=عدن" className="text-white/80 hover:text-white transition-colors">
-                  {language === 'ar' ? 'عدن' : 'Aden'}
-                </Link>
-              </li>
-              <li>
-                <Link to="/hotels?city=تعز" className="text-white/80 hover:text-white transition-colors">
+                <a href="/hotels?city=تعز" className="text-white/80 hover:text-white transition-colors">
                   {language === 'ar' ? 'تعز' : 'Taiz'}
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/hotels?city=المكلا" className="text-white/80 hover:text-white transition-colors">
+                <a href="/hotels?city=المكلا" className="text-white/80 hover:text-white transition-colors">
                   {language === 'ar' ? 'المكلا' : 'Al Mukalla'}
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
@@ -100,7 +95,7 @@ const Footer = () => {
             <div className="space-y-3">
               <p className="flex items-center text-white/80">
                 <Mail className="h-4 w-4 flex-shrink-0 me-2" />
-                <span>support@fandiqi.com</span>
+                <span>support@mahjooz.com</span>
               </p>
               <p className="flex items-center text-white/80">
                 <Phone className="h-4 w-4 flex-shrink-0 me-2" />
@@ -112,7 +107,7 @@ const Footer = () => {
 
         <div className="border-t border-white/20 mt-8 pt-6 text-center">
           <p className="text-sm text-white/80">
-            &copy; {currentYear} {language === 'ar' ? 'فندقي' : 'Fandiqi'}. 
+            &copy; {currentYear} {language === 'ar' ? 'محجوز' : 'Mahjooz'}. 
             {language === 'ar' 
               ? ' جميع الحقوق محفوظة.'
               : ' All rights reserved.'
