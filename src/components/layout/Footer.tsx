@@ -3,17 +3,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Facebook, Twitter, Instagram, Mail, Phone } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Footer = () => {
   const { t, language } = useLanguage();
   const currentYear = new Date().getFullYear();
+  const isMobile = useIsMobile();
 
   return (
     <footer className="bg-yemen-DEFAULT text-white">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="flex flex-col space-y-8">
           {/* Brand Section */}
-          <div className="col-span-1">
+          <div className="w-full">
             <Link to="/" className="text-2xl font-bold text-white">
               {language === 'ar' ? 'محجوز' : 'Mahjooz'}
             </Link>
@@ -23,7 +25,7 @@ const Footer = () => {
                 : 'The premier hotel booking platform in Yemen. Discover the best hotels and book at the best prices.'
               }
             </p>
-            <div className="flex mt-4 space-x-4 space-x-reverse:rtl">
+            <div className="flex mt-4 space-x-4 rtl:space-x-reverse">
               <a href="#" className="text-white/80 hover:text-white transition-colors">
                 <Facebook className="h-5 w-5" />
                 <span className="sr-only">Facebook</span>
@@ -40,7 +42,7 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="col-span-1">
+          <div className="w-full">
             <h3 className="font-semibold text-lg mb-4">
               {language === 'ar' ? 'روابط سريعة' : 'Quick Links'}
             </h3>
@@ -64,7 +66,7 @@ const Footer = () => {
           </div>
 
           {/* Top Cities */}
-          <div className="col-span-1">
+          <div className="w-full">
             <h3 className="font-semibold text-lg mb-4">
               {language === 'ar' ? 'أعلى المدن' : 'Top Cities'}
             </h3>
@@ -88,7 +90,7 @@ const Footer = () => {
           </div>
 
           {/* Contact */}
-          <div className="col-span-1">
+          <div className="w-full">
             <h3 className="font-semibold text-lg mb-4">
               {language === 'ar' ? 'اتصل بنا' : 'Contact Us'}
             </h3>
