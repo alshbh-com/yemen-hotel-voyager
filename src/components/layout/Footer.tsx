@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Facebook, Twitter, Instagram, Mail, Phone } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Mail, Phone, Star, MessageSquare, Users } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const Footer = () => {
@@ -13,7 +13,7 @@ const Footer = () => {
   return (
     <footer className="bg-yemen-DEFAULT text-white">
       <div className="container mx-auto px-4 py-8 md:py-12">
-        <div className="flex flex-col space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="w-full">
             <Link to="/" className="text-2xl font-bold text-white">
@@ -53,6 +53,16 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/why-us" className="text-white/80 hover:text-white transition-colors">
+                  {language === 'ar' ? 'لماذا محجوز' : 'Why Mahjooz'}
+                </Link>
+              </li>
+              <li>
+                <Link to="/ai-assistant" className="text-white/80 hover:text-white transition-colors">
+                  {language === 'ar' ? 'المساعد الذكي' : 'AI Assistant'}
+                </Link>
+              </li>
+              <li>
                 <Link to="/login" className="text-white/80 hover:text-white transition-colors">
                   {t('login')}
                 </Link>
@@ -65,12 +75,24 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Top Cities */}
+          {/* Additional Links */}
           <div className="w-full">
             <h3 className="font-semibold text-lg mb-4">
-              {language === 'ar' ? 'أعلى المدن' : 'Top Cities'}
+              {language === 'ar' ? 'روابط إضافية' : 'Additional Links'}
             </h3>
             <ul className="space-y-2">
+              <li>
+                <Link to="/reviews" className="text-white/80 hover:text-white transition-colors flex items-center">
+                  <Star className="h-4 w-4 me-2" />
+                  {language === 'ar' ? 'التقييمات' : 'Reviews'}
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-white/80 hover:text-white transition-colors flex items-center">
+                  <MessageSquare className="h-4 w-4 me-2" />
+                  {language === 'ar' ? 'اتصل بنا' : 'Contact Us'}
+                </Link>
+              </li>
               <li>
                 <a href="/hotels?city=صنعاء" className="text-white/80 hover:text-white transition-colors">
                   {language === 'ar' ? 'صنعاء' : 'Sana\'a'}
@@ -102,6 +124,10 @@ const Footer = () => {
               <p className="flex items-center text-white/80">
                 <Phone className="h-4 w-4 flex-shrink-0 me-2" />
                 <span>+967 01 234 5678</span>
+              </p>
+              <p className="flex items-center text-white/80 mt-4">
+                <Users className="h-4 w-4 flex-shrink-0 me-2" />
+                <span>{language === 'ar' ? 'تابعنا على وسائل التواصل الاجتماعي' : 'Follow us on social media'}</span>
               </p>
             </div>
           </div>
