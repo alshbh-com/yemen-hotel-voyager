@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import HotelList from "./pages/HotelList";
 import HotelDetail from "./pages/HotelDetail";
 import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import WhyUs from "./pages/WhyUs";
@@ -34,6 +35,7 @@ const App = () => (
               <Route path="/hotels" element={<HotelList />} />
               <Route path="/hotels/:id" element={<HotelDetail />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
               <Route path="/admin-login" element={<AdminLogin />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/why-us" element={<WhyUs />} />

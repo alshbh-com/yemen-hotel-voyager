@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -12,13 +12,20 @@ import { useToast } from "@/hooks/use-toast";
 
 const AdminLogin = () => {
   const { t, language } = useLanguage();
-  const { adminLogin } = useAuth();
+  const { adminLogin, isAuthenticated, isAdmin } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Redirect if already authenticated as admin
+  useEffect(() => {
+    if (isAuthenticated && isAdmin) {
+      navigate('/admin');
+    }
+  }, [isAuthenticated, isAdmin, navigate]);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +48,7 @@ const AdminLogin = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-16 flex justify-center">
+      <div className="container mx-auto px-4 py-8 md:py-16 flex justify-center">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <Shield className="w-12 h-12 mx-auto mb-2 text-yemen-DEFAULT" />

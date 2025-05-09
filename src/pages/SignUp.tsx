@@ -7,17 +7,19 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { AlertCircle, Facebook, Mail } from 'lucide-react';
+import { AlertCircle, Facebook, UserPlus } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { FcGoogle } from 'react-icons/fc';
 import { Separator } from '@/components/ui/separator';
 
-const Login = () => {
+const SignUp = () => {
   const { t, language } = useLanguage();
-  const { login, loginWithGoogle, loginWithFacebook, isAuthenticated } = useAuth();
+  const { signUp, loginWithGoogle, loginWithFacebook, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -36,34 +38,12 @@ const Login = () => {
     setIsLoading(true);
     
     try {
-      await login(email, password);
-      toast({
-        title: language === 'ar' ? 'تم تسجيل الدخول بنجاح' : 'Login successful',
-        description: language === 'ar' ? 'مرحبًا بعودتك' : 'Welcome back',
-      });
-      navigate('/');
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
+      await signUp(email, password, firstName, lastName);
       setIsLoading(false);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    try {
-      await loginWithGoogle();
-      // Navigate happens after OAuth redirect
+      // Don't navigate here - user will need to verify email
     } catch (err) {
       setError((err as Error).message);
-    }
-  };
-
-  const handleFacebookLogin = async () => {
-    try {
-      await loginWithFacebook();
-      // Navigate happens after OAuth redirect
-    } catch (err) {
-      setError((err as Error).message);
+      setIsLoading(false);
     }
   };
 
@@ -73,7 +53,7 @@ const Login = () => {
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center">
-              {t('login')}
+              {t('signup')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -84,12 +64,12 @@ const Login = () => {
               </div>
             )}
             
-            {/* Social Login Buttons */}
+            {/* Social Sign Up Buttons */}
             <div className="grid grid-cols-2 gap-4">
               <Button 
                 variant="outline" 
                 className="w-full flex items-center justify-center gap-2"
-                onClick={handleGoogleLogin}
+                onClick={() => loginWithGoogle()}
               >
                 <FcGoogle className="h-5 w-5" />
                 <span>Google</span>
@@ -98,7 +78,7 @@ const Login = () => {
               <Button 
                 variant="outline" 
                 className="w-full bg-[#1877F2] text-white hover:bg-[#166FE5] flex items-center justify-center gap-2"
-                onClick={handleFacebookLogin}
+                onClick={() => loginWithFacebook()}
               >
                 <Facebook className="h-5 w-5" />
                 <span>Facebook</span>
@@ -113,6 +93,34 @@ const Login = () => {
             </div>
             
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="firstName" className="block text-sm font-medium mb-1">
+                    {language === 'ar' ? 'الاسم الأول' : 'First Name'}
+                  </label>
+                  <Input
+                    id="firstName"
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="lastName" className="block text-sm font-medium mb-1">
+                    {language === 'ar' ? 'اسم العائلة' : 'Last Name'}
+                  </label>
+                  <Input
+                    id="lastName"
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+              
               <div>
                 <label htmlFor="email" className="block text-sm font-medium mb-1">
                   {t('email')}
@@ -138,6 +146,7 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  minLength={6}
                 />
               </div>
               
@@ -146,27 +155,19 @@ const Login = () => {
                 className="w-full bg-yemen-DEFAULT hover:bg-yemen-dark flex items-center justify-center gap-2"
                 disabled={isLoading}
               >
-                <Mail className="h-5 w-5" />
+                <UserPlus className="h-5 w-5" />
                 {isLoading 
-                  ? (language === 'ar' ? 'جاري تسجيل الدخول...' : 'Logging in...') 
-                  : t('login')
+                  ? (language === 'ar' ? 'جاري التسجيل...' : 'Signing up...') 
+                  : (language === 'ar' ? 'إنشاء حساب' : 'Create Account')
                 }
               </Button>
-              
-              {/* Demo account information */}
-              <div className="text-sm text-center text-gray-500 mt-2">
-                {language === 'ar' 
-                  ? 'للتجربة، استخدم: user@test.com / password123'
-                  : 'For demo, use: user@test.com / password123'
-                }
-              </div>
             </form>
           </CardContent>
           <CardFooter className="flex justify-center">
             <p className="text-sm text-gray-500">
-              {language === 'ar' ? 'ليس لديك حساب؟' : 'Don\'t have an account?'}{' '}
-              <Link to="/signup" className="text-yemen-DEFAULT hover:underline">
-                {t('signup')}
+              {language === 'ar' ? 'لديك حساب بالفعل؟' : 'Already have an account?'}{' '}
+              <Link to="/login" className="text-yemen-DEFAULT hover:underline">
+                {t('login')}
               </Link>
             </p>
           </CardFooter>
@@ -176,4 +177,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
